@@ -125,16 +125,16 @@ apirest-destroy: ## destroys completly the apirest container
 # -------------------------------------------------------------------------------------------------
 #  MongoDB Service
 # -------------------------------------------------------------------------------------------------
-.PHONY: mongo-hostcheck mongo-info mongo-set mongo-create mongo-ssh mongo-start mongo-stop mongo-destroy
+.PHONY: mongo-ports-check mongo-info mongo-set mongo-create mongo-ssh mongo-start mongo-stop mongo-destroy
 
-mongo-hostcheck: ## shows this project ports availability on local machine for database container
-	cd platforms/$(MONGODB_PLTF) && $(MAKE) port-check
+mongo-ports-check: ## shows this project ports availability on local machine for database and client containers
+	cd platforms/$(MONGODB_PLTF) && $(MAKE) ports-check
+
+mongo-set: ## sets the database and client enviroment file to build both container
+	cd platforms/$(MONGODB_PLTF) && $(MAKE) env-set
 
 mongo-info: ## shows docker related information
 	cd platforms/$(MONGODB_PLTF) && $(MAKE) info
-
-mongo-set: ## sets the database enviroment file to build the container
-	cd platforms/$(MONGODB_PLTF) && $(MAKE) env-set
 
 mongo-build: ## builds and ensures changes in the Dockerfile, build steps, or copied-in files are applied
 	cd platforms/$(MONGODB_PLTF) && $(MAKE) build
@@ -164,6 +164,53 @@ mongo-destroy: ## destroys completly the database container with its data
         echo ${C_GRN}"K.O.! container has been stopped but not destroyed."${C_END}; \
     else \
 		cd platforms/$(MONGODB_PLTF) && $(MAKE) stop clear destroy; \
+		echo -n ${C_GRN}"Do you want to clear DOCKER cache? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
+			echo ${C_YEL}"The following commands are delegated to be executed by user:"${C_END}; \
+			echo "$$ $(DOCKER) system prune"; \
+			echo "$$ $(DOCKER) volume prune"; \
+		else \
+			$(DOCKER) system prune; \
+			$(DOCKER) volume prune; \
+			echo ${C_GRN}"O.K.! DOCKER cache has been cleared up."${C_END}; \
+		fi \
+	fi
+
+# -------------------------------------------------------------------------------------------------
+#  MongoDB Client Service
+# -------------------------------------------------------------------------------------------------
+.PHONY: mongo-client-info mongo-client-create mongo-client-ssh mongo-client-start mongo-client-stop mongo-client-destroy
+
+mongo-client-info: ## shows docker related information
+	cd platforms/$(MONGODB_PLTF) && $(MAKE) info-client
+
+mongo-client-build: ## builds and ensures changes in the Dockerfile, build steps, or copied-in files are applied
+	cd platforms/$(MONGODB_PLTF) && $(MAKE) build-client
+
+mongo-client-create: ## starts up or creates the container for running in detached mode
+	cd platforms/$(MONGODB_PLTF) && $(MAKE) up-client
+
+mongo-client-network: ## starts up into an existing custom network for container-to-container communication, runnning in detached mode
+	cd platforms/$(MONGODB_PLTF) && $(MAKE) clear-client network-client
+
+mongo-client-ssh: ## enters the apirest container shell
+	cd platforms/$(MONGODB_PLTF) && $(MAKE) ssh-client
+
+mongo-client-start: ## starts the database container running
+	cd platforms/$(MONGODB_PLTF) && $(MAKE) start-client
+
+mongo-client-stop: ## stops the database container but its assets will not be destroyed
+	cd platforms/$(MONGODB_PLTF) && $(MAKE) stop-client
+
+mongo-client-restart: ## restarts the running database container
+	cd platforms/$(MONGODB_PLTF) && $(MAKE) restart-client
+
+mongo-client-destroy: ## destroys completly the database container with its data
+	echo ${C_RED}"Attention!"${C_END};
+	echo ${C_YEL}"You're about to remove the "${C_BLU}"$(MONGODB_PLTF)"${C_END}" container and delete its image resource and persistance data."${C_END};
+	@echo -n ${C_RED}"Are you sure to proceed? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
+        echo ${C_GRN}"K.O.! container has been stopped but not destroyed."${C_END}; \
+    else \
+		cd platforms/$(MONGODB_PLTF) && $(MAKE) stop-client clear-client destroy-client; \
 		echo -n ${C_GRN}"Do you want to clear DOCKER cache? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
 			echo ${C_YEL}"The following commands are delegated to be executed by user:"${C_END}; \
 			echo "$$ $(DOCKER) system prune"; \

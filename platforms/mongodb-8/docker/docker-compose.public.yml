@@ -3,9 +3,11 @@ services:
 
   mongo:
     ports:
-      - ${COMPOSE_PROJECT_PORT}:27017
+      - ${COMPOSE_PORT}:27017
+    networks:
+      - net
 
 networks:
   net:
     driver: bridge
-    name: ${COMPOSE_PROJECT_LEAD}-${COMPOSE_PROJECT_CNET}
+    name: ${COMPOSE_LEAD}-${COMPOSE_CNET}

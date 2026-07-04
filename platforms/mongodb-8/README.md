@@ -70,24 +70,25 @@ If no GNU Make is in used, create a copy from the example `./docker/.env.example
 
 The service container can be easily manage by the `./docker/docker-compose.yml`.
 
-Require environment variables at `./docker/.env` *(all are customizable)*:
+Require environment variables at `./docker/.env`:
 ```bash
-COMPOSE_PROJECT_LEAD="myproj"                           # <- lead abbreviation or acronym as part of related containers naming rule -------------------------> #
-COMPOSE_PROJECT_CNET="mp-dev"                           # <- useful for networking to connect between containers --------------------------------------------> #
-COMPOSE_PROJECT_IMGK="alpine-3.22-mongodb-8.22"         # <- real main image keys to manage automations for sharing resources -------------------------------> #
-COMPOSE_PROJECT_NAME="mp-mongodb-dev"                   # <- container name to build the service - it is important to set the environment in this variable --> #
-COMPOSE_PROJECT_PATH="./mongodb_data"                   # <- platform broker data storage in local ----------------------------------------------------------> #
-COMPOSE_PROJECT_HOST="127.0.0.1"                        # <- machine hostname referrer - not necessary for this project -------------------------------------> #
-COMPOSE_PROJECT_CPUS="2.00"                             # <- container's maximum CPUs usage to apply by docker-compose - leave it empty for full usage ------> #
-COMPOSE_PROJECT_MEM=512M                                # <- container's maximum RAM usage to apply by docker-compose ---------------------------------------> #
-COMPOSE_PROJECT_SWAP=1G                                 # <- container's RAM swap space in storage executed by automation command ---------------------------> #
-COMPOSE_PROJECT_PORT=7711                               # <- local machine port opened for container service ------------------------------------------------> #
-COMPOSE_PROJECT_PORT_APP=7712                           # <- application ui management port -----------------------------------------------------------------> #
-MONGO_INITDB_DATABASE=dev_local                         # <- database name ----------------------------------------------------------------------------------> #
-MONGO_INITDB_ROOT_USERNAME=devuser                      # <- database root user -----------------------------------------------------------------------------> #
-MONGO_INITDB_ROOT_PASSWORD=devpass                      # <- database root password -------------------------------------------------------------------------> #
-MONGO_EXPRESS_USERNAME="appuser"                        # <- database user ----------------------------------------------------------------------------------> #
-MONGO_EXPRESS_PASSWORD="apppass"                        # <- database password ------------------------------------------------------------------------------> #
+COMPOSE_LEAD="myproj"                           # <- lead abbreviation or acronym as part of related containers naming rule -------------------------> #
+COMPOSE_CNET="mp-dev"                           # <- useful for networking to connect between containers --------------------------------------------> #
+COMPOSE_IMGK="alpine-3.22-mongodb-8.22"         # <- main container property for pulling and caching image into docker ------------------------------> #
+COMPOSE_NAME="mp-mongodb-dev"                   # <- container name to build the service - it is important to set the environment in this variable --> #
+COMPOSE_PATH="../data"                          # <- platform broker data storage in local ----------------------------------------------------------> #
+COMPOSE_HOST=127.0.0.1                          # <- machine hostname referrer - not necessary for this project -------------------------------------> #
+COMPOSE_CPUS=2.00                               # <- container's maximum CPUs usage to apply by docker-compose - leave it empty for full usage ------> #
+COMPOSE_MEM=512M                                # <- container's maximum RAM usage to apply by docker-compose ---------------------------------------> #
+COMPOSE_SWAP=1G                                 # <- container's RAM swap space in storage executed by automation command ---------------------------> #
+COMPOSE_PORT=7711                               # <- local machine port opened for container service ------------------------------------------------> #
+COMPOSE_APP_IMGK="mongo-express"                # <- container property for the ui application for pulling and caching image into docker ------------> #
+COMPOSE_APP_PORT=7712                           # <- application ui management port -----------------------------------------------------------------> #
+MONGO_INITDB_DATABASE=dev_local                 # <- database name ----------------------------------------------------------------------------------> #
+MONGO_INITDB_ROOT_USERNAME=devuser              # <- database root user -----------------------------------------------------------------------------> #
+MONGO_INITDB_ROOT_PASSWORD="devpass"            # <- database root password -------------------------------------------------------------------------> #
+MONGO_EXPRESS_USERNAME=appuser                  # <- database user ----------------------------------------------------------------------------------> #
+MONGO_EXPRESS_PASSWORD="apppass"                # <- database password ------------------------------------------------------------------------------> #
 ```
 
 ### Containers Access Modes

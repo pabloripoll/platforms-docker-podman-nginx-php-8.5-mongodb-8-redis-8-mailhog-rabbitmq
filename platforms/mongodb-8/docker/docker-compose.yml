@@ -2,7 +2,7 @@ services:
 
   mongo:
     image: mongo:8.2.4
-    container_name: ${COMPOSE_PROJECT_LEAD}-${COMPOSE_PROJECT_NAME}
+    container_name: ${COMPOSE_LEAD}-${COMPOSE_NAME}
     command: mongod --bind_ip_all
     environment:
       MONGO_INITDB_DATABASE: ${MONGODB_INITDB_DATABASE}
@@ -11,12 +11,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: ${COMPOSE_PROJECT_CPUS}
-          memory: ${COMPOSE_PROJECT_MEM} # On Docker Swarm, move resource limits into 'deploy.resources.limits'
-    networks:
-      - net
+          cpus: ${COMPOSE_CPUS}
+          memory: ${COMPOSE_MEMO} # On Docker Swarm, move resource limits into 'deploy.resources.limits'
     volumes:
-      - ${COMPOSE_PROJECT_BIND}:/data/db
+      - ${COMPOSE_DATA}:/data/db
     restart: unless-stopped
 
 volumes:

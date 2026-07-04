@@ -2,7 +2,7 @@ services:
 
   mongo-express:
     image: mongo-express
-    container_name: ${COMPOSE_PROJECT_LEAD}-${COMPOSE_PROJECT_NAME}-express
+    container_name: ${COMPOSE_LEAD}-${COMPOSE_NAME}-client
     restart: always
     environment:
       ME_CONFIG_MONGODB_URL: mongodb://${MONGODB_INITDB_ROOT_USERNAME}:${MONGODB_INITDB_ROOT_PASSWORD}@mongo:27017/
@@ -12,9 +12,5 @@ services:
     deploy:
       resources:
         limits:
-          cpus: ${COMPOSE_PROJECT_CPUS}
-          memory: ${COMPOSE_PROJECT_MEM} # On Docker Swarm, move resource limits into 'deploy.resources.limits'
-    networks:
-      - net
-    depends_on:
-      - mongo
+          cpus: ${COMPOSE_CLIENT_CPUS}
+          memory: ${COMPOSE_CLIENT_MEMO} # On Docker Swarm, move resource limits into 'deploy.resources.limits'
