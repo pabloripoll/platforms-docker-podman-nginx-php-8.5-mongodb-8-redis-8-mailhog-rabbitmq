@@ -56,9 +56,9 @@ help: ## shows this Makefile help message
 	awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z0-9_-]+:.*?## / {printf "$$ make \033[0;33m%-30s\033[0m %s\n", $$1, $$2}' ${MAKEFILE_LIST} | column -t -c 2 -s ':#'
 
 # -------------------------------------------------------------------------------------------------
-#  Environment
+#  System
 # -------------------------------------------------------------------------------------------------
-.PHONY: ports-check env env-set
+.PHONY: ports-check
 
 ports-check: ## shows this project port availability on local machine
 	echo "Checking configuration for "${C_YEL}"$(DOCKER_PLTF)"${C_END}" service:";
@@ -73,6 +73,11 @@ ports-check: ## shows this project port availability on local machine
     else \
 		echo ${C_BLU}"$(DOCKER_PLTF) CLIENT"${C_END}" > localhost:"${C_RED}"$(DOCKER_CLIENT_PORT) is busy. Update ./.env file."${C_END}; \
 	fi
+
+# -------------------------------------------------------------------------------------------------
+#  Environment
+# -------------------------------------------------------------------------------------------------
+.PHONY: env env-set
 
 env: ## checks if docker .env file exists
 	if [ -f ./docker/.env ]; then \
