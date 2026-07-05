@@ -183,7 +183,7 @@ mongo-destroy: ## destroys completly the database container with its data
 # -------------------------------------------------------------------------------------------------
 #  Mongo DB Client Service
 # -------------------------------------------------------------------------------------------------
-.PHONY: mongo-client-info mongo-client-create mongo-client-ssh mongo-client-start mongo-client-stop mongo-client-destroy
+.PHONY: mongo-client-info mongo-client-build mongo-client-create mongo-client-ssh mongo-client-start mongo-client-stop mongo-client-destroy
 
 mongo-client-info: ## shows docker related information
 	cd platforms/$(MONGODB_PLTF) && $(MAKE) info-client
