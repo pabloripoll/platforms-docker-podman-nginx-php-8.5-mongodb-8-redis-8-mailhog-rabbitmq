@@ -186,7 +186,7 @@ info-client: ## shows client container information
 	echo ${C_YEL}"CPUs.........: "${C_END}"$(DOCKER_CLIENT_CPUS)";
 	echo ${C_YEL}"Memory.......: "${C_END}"$(DOCKER_CLIENT_MEMO)";
 	echo ${C_YEL}"Swap.........: "${C_END}"$(DOCKER_CLIENT_SWAP)";
-	echo ${C_YEL}"Host.........: "${C_END}"$(DOCKER_CLIENT_HOST):$(DOCKER_CLIENT_PORT)";
+	echo ${C_YEL}"Host.........: "${C_END}"$(DOCKER_HOST):$(DOCKER_CLIENT_PORT)";
 	echo ${C_YEL}"Hostname.....: "${C_END}"$(word 1,$(shell hostname -I)):"$(DOCKER_CLIENT_PORT);
 	printf ${C_YEL}"Docker.Host..: "${C_END};$(DOCKER) inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(DOCKER_CONTAINER)-client;
 	printf ${C_YEL}"NetworkID....: "${C_END};$(DOCKER) inspect -f '{{range.NetworkSettings.Networks}}{{.NetworkID}}{{end}}' $(DOCKER_CONTAINER)-client;
