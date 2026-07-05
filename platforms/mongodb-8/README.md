@@ -62,34 +62,56 @@ Best For            Highly structured data with strict relationships    Unstruct
 
 ## <a id="configuration"></a>Service Configuration
 
-There is a dedicated GNU Make file and the main Docker directory with the required scripts to build the required platform configuration.
+There is a `./Makefile` to manege Docker container/s from outside `./docker` directory. Inside `./docker` there are the required scripts to build the platform service.
 
-This service platform is designed to be managed by a parent `./../../.env` but, as it feeds `./docker/.env` through GNU Make, it can be edited manually.
+This service platform is also developed to be managed by a parent `Makefile` by its own `./../../.env` that feeds this `./docker/.env` and others for the infrastructure platforms. Repository directories structure overview:
+```sh
+.
+├── platforms                   # infrastructure platforms
+│   │
+│   ├── mongodb-8               # this platform
+│   │   ├── docker
+│   │   │   ├── .env            # this platform environment
+│   │   │   ├── docker-compose.yml
+│   │   │   └── ...etc
+│   .   └── Makefile            # this platform automation
+│
+├── .env                        # infrastructure platforms environments
+├── Makefile                    # infrastructure platforms automations
+.
+```
 
 If no GNU Make is in used, create a copy from the example `./docker/.env.example` into `./docker/.env`.
 
-The service container can be easily manage by the `./docker/docker-compose.yml`.
-
-Require environment variables at `./docker/.env`:
+Required environment variables from `./docker/.env.example` for Docker Compose:
 ```bash
 COMPOSE_LEAD="myproj"                           # <- lead abbreviation or acronym as part of related containers naming rule -------------------------> #
 COMPOSE_CNET="mp-dev"                           # <- useful for networking to connect between containers --------------------------------------------> #
 COMPOSE_IMGK="alpine-3.22-mongodb-8.22"         # <- main container property for pulling and caching image into docker ------------------------------> #
 COMPOSE_NAME="mp-mongodb-dev"                   # <- container name to build the service - it is important to set the environment in this variable --> #
-COMPOSE_PATH="../data"                          # <- platform broker data storage in local ----------------------------------------------------------> #
+COMPOSE_DATA="../data"                          # <- platform broker data storage in local ----------------------------------------------------------> #
 COMPOSE_HOST=127.0.0.1                          # <- machine hostname referrer - not necessary for this project -------------------------------------> #
 COMPOSE_CPUS=2.00                               # <- container's maximum CPUs usage to apply by docker-compose - leave it empty for full usage ------> #
 COMPOSE_MEM=512M                                # <- container's maximum RAM usage to apply by docker-compose ---------------------------------------> #
 COMPOSE_SWAP=1G                                 # <- container's RAM swap space in storage executed by automation command ---------------------------> #
 COMPOSE_PORT=7711                               # <- local machine port opened for container service ------------------------------------------------> #
-COMPOSE_APP_IMGK="mongo-express"                # <- container property for the ui application for pulling and caching image into docker ------------> #
-COMPOSE_APP_PORT=7712                           # <- application ui management port -----------------------------------------------------------------> #
+COMPOSE_APP_IMGK="mongo-express"                # <- container property for the database client for pulling and caching image into docker -----------> #
+COMPOSE_APP_PORT=7712                           # <- database client port ---------------------------------------------------------------------------> #
 MONGO_INITDB_DATABASE=dev_local                 # <- database name ----------------------------------------------------------------------------------> #
 MONGO_INITDB_ROOT_USERNAME=devuser              # <- database root user -----------------------------------------------------------------------------> #
 MONGO_INITDB_ROOT_PASSWORD="devpass"            # <- database root password -------------------------------------------------------------------------> #
-MONGO_EXPRESS_USERNAME=appuser                  # <- database user ----------------------------------------------------------------------------------> #
-MONGO_EXPRESS_PASSWORD="apppass"                # <- database password ------------------------------------------------------------------------------> #
+COMPOSE_APP_IMGK="mongo-express"                # <- container property for the database client for pulling and caching image into docker -----------> #
+COMPOSE_APP_CPUS=1.00                           # <- client's container maximum CPUs usage to apply by docker-compose - empty for full usage --------> #
+COMPOSE_APP_MEMO=128M                           # <- client's container maximum RAM usage to apply by docker-compose --------------------------------> #
+COMPOSE_APP_SWAP=256M                           # <- client's container RAM swap space in storage executed by automation command --------------------> #
+COMPOSE_APP_PORT=7712                           # <- local machine port opened for client's container service client --------------------------------> #
+MONGODB_EXPRESS_USERNAME=admuser                # <- database client first user account -------------------------------------------------------------> #
+MONGODB_EXPRESS_PASSWORD="admpass"              # <- database client first user password ------------------------------------------------------------> #
+COMPOSE_IGNORE_ORPHANS=true                     # <- ignore docker warnings messages when client is in used -----------------------------------------> #
 ```
+
+* **Ignore Orphans**:<br>
+This Mongo DB platform has been developed for optionally using it with a database client like Mongo Express. By avoiding the usage of `--remove-orphans` flag while building the container, it prevents to remove Mongo DB container but terminal will show a warning message. To prevent that known message, the `.env` file has a constant value set to true `COMPOSE_IGNORE_ORPHANS=true` by default if using `./Makefile` for automation
 
 ### Containers Access Modes
 
@@ -120,20 +142,40 @@ $ make help
 Usage: $ make [target]
 Targets:
 $ make help                           shows this Makefile help message
-$ make port-check                     shows this project port availability on local machine
+# -------------------------------------------------------------------------------------------------
+#  Environment for Mongo DB and Mongo DB Client
+# -------------------------------------------------------------------------------------------------
+$ make ports-check                    shows this project port availability on local machine
 $ make env                            checks if docker .env file exists
 $ make env-set                        sets docker .env file
+# -------------------------------------------------------------------------------------------------
+#  Mongo DB Container
+# -------------------------------------------------------------------------------------------------
 $ make info                           shows container information
 $ make ssh                            enters the container shell
 $ make up                             starts and recreates containers if compose config or image changed, runnning in detached mode
 $ make build                          builds and ensures changes in the Dockerfile, build steps, or copied-in files are applied. Not --no-recreate
 $ make network                        starts up into an existing custom network for container-to-container communication, runnning in detached mode
-$ make start                          starts the container and put on running from latest configuration
-$ make stop                           stops the running container but data won't be destroyed
+$ make start                          starts the container and put on running
+$ make stop                           stops the running container but data will not be destroyed
 $ make restart                        restarts the running container
 $ make clear                          removes container from Docker running containers
 $ make destroy                        delete container image from Docker cache
 $ make dev                            sets a development enviroment
+# -------------------------------------------------------------------------------------------------
+#  Mongo DB Container
+# -------------------------------------------------------------------------------------------------
+$ make info-client                    shows client container information
+$ make ssh-client                     enters the client container shell
+$ make up-client                      starts and recreates containers if compose config or image changed, runnning in detached mode
+$ make build-client                   builds and ensures changes in the Dockerfile, build steps, or copied-in files are applied. Not --no-recreate
+$ make network-client                 starts up into an existing custom network for container-to-container communication, runnning in detached mode
+$ make start-client                   starts the client container and put on running
+$ make stop-client                    stops the running client container but data will not be destroyed
+$ make restart-client                 restarts the running client container
+$ make clear-client                   removes client container from Docker running containers
+$ make destroy-client                 delete client container image from Docker cache
+$ make dev-client                     sets a development enviroment
 ```
 <br><br>
 

@@ -155,7 +155,7 @@ network: ## starts up into an existing custom network for container-to-container
 start: ## starts the container and put on running
 	cd docker && $(DOCKER_COMPOSE) -f docker-compose.yml -f docker-compose.network.yml start
 
-stop: ## stops the running container but data won't be destroyed
+stop: ## stops the running container but data will not be destroyed
 	cd docker && $(DOCKER_COMPOSE) -f docker-compose.yml -f docker-compose.network.yml stop
 
 restart: ## restarts the running container
@@ -178,7 +178,7 @@ dev: ## sets a development enviroment
 # -------------------------------------------------------------------------------------------------
 .PHONY: ssh-client build-client up-client dev-client start-client stop-client restart-client clear-client destroy-client
 
-info-client: ## shows container information
+info-client: ## shows client container information
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" - MONGODB CLIENT: "${C_GRN}"$(DOCKER_PLTF)"${C_END};
 	printf ${C_YEL}"Container ID.: "${C_END}; $(DOCKER) ps -aqf "name=^$(DOCKER_CONTAINER)-client$$"; printf "%s";
 	echo ${C_YEL}"Name.........: "${C_END}$(DOCKER_CONTAINER)-client;
@@ -191,10 +191,10 @@ info-client: ## shows container information
 	printf ${C_YEL}"Docker.Host..: "${C_END};$(DOCKER) inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(DOCKER_CONTAINER)-client;
 	printf ${C_YEL}"NetworkID....: "${C_END};$(DOCKER) inspect -f '{{range.NetworkSettings.Networks}}{{.NetworkID}}{{end}}' $(DOCKER_CONTAINER)-client;
 
-ssh-client: ## enters the container shell
+ssh-client: ## enters the client container shell
 	$(DOCKER_EXEC_SSH)
 
-up-client: ## starts and recreates containers if compose config or image changed, runnning in detached mode
+up-client: ## starts and recreates client containers if compose config or image changed, runnning in detached mode
 	cd docker && $(DOCKER_COMPOSE) -f docker-compose.client.yml -f docker-compose.client.public.yml up -d
 
 build-client: ## builds and ensures changes in the Dockerfile, build steps, or copied-in files are applied. Not --no-recreate
@@ -203,21 +203,21 @@ build-client: ## builds and ensures changes in the Dockerfile, build steps, or c
 network-client: ## starts up into an existing custom network for container-to-container communication, runnning in detached mode
 	cd docker && $(DOCKER_COMPOSE) -f docker-compose.client.yml -f docker-compose.client.network.yml up -d
 
-start-client: ## starts the container and put on running
+start-client: ## starts the client container and put on running
 	cd docker && $(DOCKER_COMPOSE) -f docker-compose.client.yml -f docker-compose.client.public.yml start
 
-stop-client: ## stops the running container but data won't be destroyed
+stop-client: ## stops the running client container but data will not be destroyed
 	cd docker && $(DOCKER_COMPOSE) -f docker-compose.client.yml -f docker-compose.client.public.yml stop
 
-restart-client: ## restarts the running container
+restart-client: ## restarts the running client container
 	cd docker && $(DOCKER) restart $(DOCKER_CONTAINER)-client
 
-clear-client: ## removes container from Docker running containers
+clear-client: ## removes client container from Docker running containers
 	cd docker && $(DOCKER_COMPOSE) -f docker-compose.client.yml -f docker-compose.client.public.yml kill || true
 	cd docker && $(DOCKER_COMPOSE) -f docker-compose.client.yml -f docker-compose.client.public.yml rm --force || true
 	cd docker && $(DOCKER_COMPOSE) -f docker-compose.client.yml -f docker-compose.client.public.yml down -v --remove-orphans || true
 
-destroy-client: ## delete container image from Docker cache
+destroy-client: ## delete client container image from Docker images cache
 	cd docker && $(DOCKER) rmi -f $(DOCKER_CLIENT_IMGK)
 
 dev-client: ## sets a development enviroment
