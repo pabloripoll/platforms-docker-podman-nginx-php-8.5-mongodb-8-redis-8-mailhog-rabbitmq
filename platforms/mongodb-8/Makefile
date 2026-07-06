@@ -133,7 +133,7 @@ endif
 .PHONY: info ssh build up dev start stop restart clear destroy
 
 info: ## shows container information
-	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" - MONGODB: "${C_GRN}"$(DOCKER_PLTF)"${C_END};
+	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" - DATABASE: "${C_GRN}"$(DOCKER_PLTF)"${C_END};
 	printf ${C_YEL}"Container ID.: "${C_END}; $(DOCKER) ps -aqf "name=^$(DOCKER_CONTAINER)$$"; printf "%s";
 	echo ${C_YEL}"Name.........: "${C_END}$(DOCKER_CONTAINER);
 	echo ${C_YEL}"Image........: "${C_END}"$(DOCKER_IMGK)";
@@ -184,7 +184,7 @@ dev: ## sets a development enviroment
 .PHONY: ssh-client build-client up-client dev-client start-client stop-client restart-client clear-client destroy-client
 
 info-client: ## shows client container information
-	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" - MONGODB CLIENT: "${C_GRN}"$(DOCKER_PLTF)"${C_END};
+	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" - DATABASE CLIENT: "${C_GRN}"$(DOCKER_PLTF)"${C_END};
 	printf ${C_YEL}"Container ID.: "${C_END}; $(DOCKER) ps -aqf "name=^$(DOCKER_CONTAINER)-client$$"; printf "%s";
 	echo ${C_YEL}"Name.........: "${C_END}$(DOCKER_CONTAINER)-client;
 	echo ${C_YEL}"Image........: "${C_END}"$(DOCKER_CLIENT_IMGK)";
