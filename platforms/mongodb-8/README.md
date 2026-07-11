@@ -41,6 +41,7 @@ Best For            Highly structured data with strict relationships    Unstruct
 ```
 
 ### Core Components of MongoDB
+
 - Database: The primary container that houses all your collections of data.
 - Collections: The equivalent of a "table" in a SQL database. It is a grouping of MongoDB documents.
 - Documents: The fundamental unit of data in MongoDB, stored as BSON (Binary JSON). They consist of key-value pairs. For example:
@@ -52,6 +53,7 @@ Best For            Highly structured data with strict relationships    Unstruct
             "interests": ["coding", "hiking"]
         }
     ```
+
 ### Why Developers Use It
 
 - Rapid Development: The document model maps directly to objects in application code, eliminating the need to write complex "joins" to piece data together
@@ -163,7 +165,7 @@ $ make clear                          removes container from Docker running cont
 $ make destroy                        delete container image from Docker cache
 $ make dev                            sets a development enviroment
 # -------------------------------------------------------------------------------------------------
-#  Mongo DB Container
+#  Mongo DB Client Container
 # -------------------------------------------------------------------------------------------------
 $ make info-client                    shows client container information
 $ make ssh-client                     enters the client container shell
