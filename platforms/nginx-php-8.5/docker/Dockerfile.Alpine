@@ -87,7 +87,7 @@ RUN apk add --no-cache \
   ## MongoDB
   php85-pecl-mongodb \
   ## Redis
-  #php85-pecl-redis \
+  php85-pecl-redis \
   ## RabbitMQ
   rabbitmq-c \
   php85-pecl-amqp

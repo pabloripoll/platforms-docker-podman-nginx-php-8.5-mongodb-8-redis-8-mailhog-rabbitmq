@@ -64,12 +64,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ## Mysql - Mariadb
     #default-libmysqlclient-dev \
     ## Postgre
-    libpq-dev \
+    #libpq-dev \
     ## MongoDB (for PECL extension)
-    #pkg-config \
+    pkg-config \
     #libssl-dev \
     ## RabbitMQ / AMQP
-    #librabbitmq-dev \
+    librabbitmq-dev \
+    ## Clear
     && rm -rf /var/lib/apt/lists/*
 
 ## Configure and install PHP GD extension

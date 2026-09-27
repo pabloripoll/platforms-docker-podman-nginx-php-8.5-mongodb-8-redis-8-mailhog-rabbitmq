@@ -1,0 +1,16 @@
+services:
+
+  redis:
+    ports:
+      - ${COMPOSE_PROJECT_HOST}:${COMPOSE_PROJECT_PORT}:6379
+    networks:
+      net: {}
+
+networks:
+  net:
+    driver: bridge
+    external: true
+    name: ${COMPOSE_PROJECT_LEAD}-${COMPOSE_PROJECT_CNET}
+  default:
+    external: true
+    name: ${COMPOSE_PROJECT_LEAD}-${COMPOSE_PROJECT_CNET}

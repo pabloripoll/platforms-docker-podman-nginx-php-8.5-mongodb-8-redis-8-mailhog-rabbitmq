@@ -1,0 +1,23 @@
+services:
+
+  redis:
+    image: ${COMPOSE_PROJECT_LEAD}-${COMPOSE_PROJECT_NAME}:${COMPOSE_PROJECT_IMGK}
+    pull_policy: never
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${COMPOSE_PROJECT_LEAD}-${COMPOSE_PROJECT_NAME}
+    environment:
+      REDIS_ROOT_USER: ${REDIS_ROOT_USER}
+      REDIS_ROOT_PASSWORD: ${REDIS_ROOT_PASSWORD}
+      REDIS_USER: ${REDIS_USER}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    volumes:
+      - ${COMPOSE_PROJECT_BIND}:/data
+    deploy:
+      resources:
+        limits:
+          cpus: ${COMPOSE_PROJECT_CPUS}
+          memory: ${COMPOSE_PROJECT_MEM}
+    tty: true
+    restart: unless-stopped

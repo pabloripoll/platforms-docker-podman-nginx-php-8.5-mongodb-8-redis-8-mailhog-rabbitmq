@@ -1,0 +1,6 @@
+# docker-compose.public.yml - standalone, world accessible
+services:
+
+  redis:
+    ports:
+      - ${COMPOSE_PROJECT_PORT}:6379
