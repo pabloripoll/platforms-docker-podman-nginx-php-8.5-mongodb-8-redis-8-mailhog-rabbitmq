@@ -177,7 +177,7 @@ mongo-down: ## stops and removes the container, network and volume established
 	@echo -n ${C_RED}"Are you sure to proceed? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
         echo ${C_GRN}"K.O.! container continues with its latest status."${C_END}; \
     else \
-		cd platforms/$(MONGODB_PLTF) && $(MAKE) stop clear; \
+		cd platforms/$(MONGODB_PLTF) && $(MAKE) clear; \
 		echo ${C_GRN}"O.K.! $(MONGODB_PLTF) has been cleared down."${C_END}; \
 	fi
 
@@ -187,7 +187,7 @@ mongo-destroy: ## destroys completly the database container with its data
 	@echo -n ${C_RED}"Are you sure to proceed? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
         echo ${C_GRN}"K.O.! container has been stopped but not destroyed."${C_END}; \
     else \
-		cd platforms/$(MONGODB_PLTF) && $(MAKE) stop clear destroy; \
+		cd platforms/$(MONGODB_PLTF) && $(MAKE) clear destroy; \
 		echo -n ${C_GRN}"Do you want to clear DOCKER cache? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
 			echo ${C_YEL}"The following commands are delegated to be executed by user:"${C_END}; \
 			echo "$$ $(DOCKER) system prune"; \
@@ -233,7 +233,7 @@ mongo-client-down: ## stops and removes the container, network and volume establ
 	@echo -n ${C_RED}"Are you sure to proceed? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
         echo ${C_GRN}"K.O.! container continues with its latest status."${C_END}; \
     else \
-		cd platforms/$(MONGODB_PLTF) && $(MAKE) stop-client clear-client; \
+		cd platforms/$(MONGODB_PLTF) && $(MAKE) clear-client; \
 		echo ${C_GRN}"O.K.! $(MONGODB_PLTF) has been cleared down."${C_END}; \
 	fi
 
@@ -243,7 +243,7 @@ mongo-client-destroy: ## destroys completly the database container with its data
 	@echo -n ${C_RED}"Are you sure to proceed? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
         echo ${C_GRN}"K.O.! container continues with its latest status."${C_END}; \
     else \
-		cd platforms/$(MONGODB_PLTF) && $(MAKE) stop-client clear-client destroy-client; \
+		cd platforms/$(MONGODB_PLTF) && $(MAKE) clear-client destroy-client; \
 		echo -n ${C_GRN}"Do you want to clear DOCKER cache? "${C_END}"[y/n]: " && read response && if [ $${response:-'n'} != 'y' ]; then \
 			echo ${C_YEL}"The following commands are delegated to be executed by user:"${C_END}; \
 			echo "$$ $(DOCKER) system prune"; \
