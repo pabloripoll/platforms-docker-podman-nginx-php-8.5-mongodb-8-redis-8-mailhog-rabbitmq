@@ -12,8 +12,8 @@
 
 ## <a id="features"></a>Features
 
-![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=Ubuntu&logoColor=white)
-![MongoDB](https://img.shields.io/badge/-MongoDB-13aa52?style=for-the-badge&logo=mongodb&logoColor=white)
+![Ubuntu](https://shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=Ubuntu&logoColor=white)
+![MongoDB](https://shields.io/badge/-MongoDB-13aa52?style=for-the-badge&logo=mongodb&logoColor=white)
 
 MongoDB is a popular, open-source NoSQL database that stores data in flexible, JSON-like documents rather than traditional rigid tables. It allows developers to store complex and varied data types easily, making it highly adaptable and scalable for modern web and mobile applications.
 

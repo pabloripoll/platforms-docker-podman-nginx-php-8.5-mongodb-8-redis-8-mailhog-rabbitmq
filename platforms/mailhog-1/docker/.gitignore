@@ -1,5 +1,4 @@
+# Ignore custom settings
 .env
-/data/*
-!/data/.gitkeep
-/log/*
-!/log/.gitkeep
+/config/conf.d/*
+!/config/conf.d/.gitkeep

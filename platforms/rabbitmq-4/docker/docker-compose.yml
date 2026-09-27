@@ -11,10 +11,11 @@ services:
     deploy:
       resources:
         limits:
-          memory: ${COMPOSE_PROJECT_MEM}
+          cpus: ${COMPOSE_PROJECT_CPUS}
+          memory: ${COMPOSE_PROJECT_MEMO}
     volumes:
-        - ../data/:/var/lib/rabbitmq/
-        - ../log/:/var/log/rabbitmq
+        - .${COMPOSE_PROJECT_DATA}:/var/lib/rabbitmq/
+        - .${COMPOSE_PROJECT_LOGS}:/var/log/rabbitmq
         - ./config/conf.d/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
     tty: true
     restart: unless-stopped

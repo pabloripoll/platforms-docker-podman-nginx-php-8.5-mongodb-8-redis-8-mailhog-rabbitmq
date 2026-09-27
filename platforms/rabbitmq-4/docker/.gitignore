@@ -1,6 +1,4 @@
 # Ignore custom settings
 .env
-/data
-/log
 /config/conf.d/*
 !/config/conf.d/.gitkeep

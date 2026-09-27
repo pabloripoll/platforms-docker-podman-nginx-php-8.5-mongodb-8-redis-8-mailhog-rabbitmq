@@ -2,7 +2,7 @@ services:
 
   mongo-express:
     ports:
-      - ${COMPOSE_CLIENT_PORT}:8081
+      - ${COMPOSE_PROJECT_CLIENT_PORT}:8081
     networks:
       - net
 
@@ -10,4 +10,4 @@ networks:
   net:
     driver: bridge
     external: true
-    name: ${COMPOSE_LEAD}-${COMPOSE_CNET}
+    name: ${COMPOSE_PROJECT_LEAD}-${COMPOSE_PROJECT_CNET}

@@ -27,10 +27,12 @@ DOCKER_CNET=$(PROJECT_CNET)
 DOCKER_HOST=$(PROJECT_HOST)
 DOCKER_IMGK=$(MAILER_IMGK)
 DOCKER_PORT=$(MAILER_PORT)
+DOCKER_DATA=$(MAILER_DATA)
+DOCKER_LOGS=$(MAILER_LOGS)
 DOCKER_CAAS=$(MAILER_CAAS)
-DOCKER_CPUS=$(MAILER_CAAS_CPUS)
-DOCKER_MEM=$(MAILER_CAAS_MEM)
-DOCKER_SWAP=$(MAILER_CAAS_SWAP)
+DOCKER_CPUS=$(MAILER_CPUS)
+DOCKER_MEMO=$(MAILER_MEMO)
+DOCKER_SWAP=$(MAILER_SWAP)
 DOCKER_APP_PORT=$(MAILER_APP_PORT)
 
 ROOT_DIR=$(patsubst %/,%,$(dir $(realpath $(firstword $(MAKEFILE_LIST)))))
@@ -80,20 +82,22 @@ env-set: ## sets docker .env file
 ifeq ($(DETECTED_OS), Windows)
 	echo "Recipe do not support for Windows NT at this moment - You have to manually create .env file from ./docker/.env.example";
 else
-	echo "COMPOSE_PROJECT_LEAD=\"$(DOCKER_LEAD)\"\r\n\
-	COMPOSE_PROJECT_CNET=\"$(DOCKER_CNET)\"\r\n\
-	COMPOSE_PROJECT_IMGK=\"$(DOCKER_IMGK)\"\r\n\
-	COMPOSE_PROJECT_HOST=\"$(DOCKER_HOST)\"\r\n\
-	COMPOSE_PROJECT_PORT=$(DOCKER_PORT)\r\n\
-	COMPOSE_PROJECT_NAME=\"$(DOCKER_CAAS)\"\r\n\
-	COMPOSE_PROJECT_CPUS=\"$(DOCKER_CPUS)\"\r\n\
-	COMPOSE_PROJECT_MEM=\"$(DOCKER_MEM)\"\r\n\
-	COMPOSE_PROJECT_SWAP=\"$(DOCKER_SWAP)\"\r\n\
-	COMPOSE_PROJECT_APP_PORT=\"$(DOCKER_APP_PORT)\"" > ./docker/.env; \
+	@echo "COMPOSE_PROJECT_LEAD=$(DOCKER_LEAD)" > ./docker/.env
+	@echo "COMPOSE_PROJECT_CNET=$(DOCKER_CNET)" >> ./docker/.env
+	@echo "COMPOSE_PROJECT_IMGK=$(DOCKER_IMGK)" >> ./docker/.env
+	@echo "COMPOSE_PROJECT_HOST=$(DOCKER_HOST)" >> ./docker/.env
+	@echo "COMPOSE_PROJECT_PORT=$(DOCKER_PORT)" >> ./docker/.env
+	@echo "COMPOSE_PROJECT_DATA=\"$(DOCKER_DATA)\"" >> ./docker/.env
+	@echo "COMPOSE_PROJECT_LOGS=\"$(DOCKER_LOGS)\"" >> ./docker/.env
+	@echo "COMPOSE_PROJECT_NAME=$(DOCKER_CAAS)" >> ./docker/.env
+	@echo "COMPOSE_PROJECT_CPUS=$(DOCKER_CPUS)" >> ./docker/.env
+	@echo "COMPOSE_PROJECT_MEMO=$(DOCKER_MEMO)" >> ./docker/.env
+	@echo "COMPOSE_PROJECT_SWAP=$(DOCKER_SWAP)" >> ./docker/.env
+	@echo "COMPOSE_PROJECT_APP_PORT=$(DOCKER_APP_PORT)" >> ./docker/.env;
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SERVICE "${C_YEL}$(DOCKER_PLTF)${C_END}" - "${C_YEL}"docker-compose.yml"${C_END}" .env file "${C_GRN}"has been set."${C_END};
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SERVICE "${C_YEL}$(DOCKER_PLTF)${C_END}" - Container: "${C_GRN}$(DOCKER_CONTAINER)${C_END}
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SERVICE "${C_YEL}$(DOCKER_PLTF)${C_END}" - Max. CPUs: "${C_GRN}$(DOCKER_CPUS)${C_END}
-	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SERVICE "${C_YEL}$(DOCKER_PLTF)${C_END}" - Max. memory: "${C_GRN}$(DOCKER_MEM)${C_END}" - swap: "${C_GRN}$(DOCKER_SWAP)${C_END}
+	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SERVICE "${C_YEL}$(DOCKER_PLTF)${C_END}" - Max. memory: "${C_GRN}$(DOCKER_MEMO)${C_END}" - swap: "${C_GRN}$(DOCKER_SWAP)${C_END}
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SERVICE "${C_YEL}$(DOCKER_PLTF)${C_END}" - SMTP is served at: http://"${C_GRN}$(word 1,$(shell hostname -I)):$(DOCKER_PORT)${C_END}
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SERVICE "${C_YEL}$(DOCKER_PLTF)${C_END}" - APP/API is served at: http://127.0.0.1:"${C_GRN}$(DOCKER_APP_PORT)${C_END}
 endif
@@ -101,7 +105,7 @@ endif
 # -------------------------------------------------------------------------------------------------
 #  Container
 # -------------------------------------------------------------------------------------------------
-.PHONY: info ssh build up dev start stop restart clear destroy
+.PHONY: info ssh up build network start stop restart clear destroy dev
 
 info: ## shows container information
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" - MAILER: "${C_GRN}"$(DOCKER_PLTF)"${C_END};
@@ -109,9 +113,10 @@ info: ## shows container information
 	echo ${C_YEL}"Name.........: "${C_END}$(DOCKER_CONTAINER);
 	echo ${C_YEL}"Image........: "${C_END}"$(DOCKER_CONTAINER):$(DOCKER_IMGK)";
 	echo ${C_YEL}"CPUs.........: "${C_END}"$(DOCKER_CPUS)";
-	echo ${C_YEL}"Memory.......: "${C_END}"$(DOCKER_MEM)";
+	echo ${C_YEL}"Memory.......: "${C_END}"$(DOCKER_MEMO)";
 	echo ${C_YEL}"Host.........: "${C_END}"$(DOCKER_HOST):$(DOCKER_PORT)";
 	echo ${C_YEL}"Hostname.....: "${C_END}"$(word 1,$(shell hostname -I)):"$(DOCKER_PORT);
+	echo ${C_YEL}"App.Host.....: "${C_END}"http://127.0.0.1:$(DOCKER_APP_PORT)";
 	printf ${C_YEL}"Docker.Host..: "${C_END};$(DOCKER) inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(DOCKER_CONTAINER);
 	printf ${C_YEL}"NetworkID....: "${C_END};$(DOCKER) inspect -f '{{range.NetworkSettings.Networks}}{{.NetworkID}}{{end}}' $(DOCKER_CONTAINER);
 
@@ -138,12 +143,12 @@ restart: ## restarts the running container
 
 clear: ## removes container from Docker running containers
 	cd docker && $(DOCKER_COMPOSE) kill || true
-	cd docker && $(DOCKER_COMPOSE) rm --force || true
-	cd docker && $(DOCKER_COMPOSE) down -v --remove-orphans || true
+	cd docker && $(DOCKER_COMPOSE) down --volumes --remove-orphans || true
 
 destroy: ## delete container image from Docker cache
 	cd docker && $(DOCKER) rmi -f $(DOCKER_IMGK)
-	$(SUDO) rm -rf ./data ./log
+	$(SUDO) rm -rf $(DOCKER_DATA)
+	$(SUDO) rm -rf $(DOCKER_LOGS)
 
 dev: ## sets a development enviroment
 	echo ${C_YEL}"\"dev\" recipe has not usage in this project"${C_END};
