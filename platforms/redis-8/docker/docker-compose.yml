@@ -18,6 +18,6 @@ services:
       resources:
         limits:
           cpus: ${COMPOSE_PROJECT_CPUS}
-          memory: ${COMPOSE_PROJECT_MEM}
+          memory: ${COMPOSE_PROJECT_MEMO}
     tty: true
     restart: unless-stopped
