@@ -17,7 +17,7 @@
 
 Redis (REmote DIctionary Server) is an open source, in-memory, NoSQL key/value store that is used primarily as an application cache or quick-response database. Rather than on a disk or solid-state drive (SSD), it stores data in memory, which helps deliver unparalleled speed, reliability, and performance.
 
-### Why It Is an In-Memory Database
+### Why It Is an In-Memory Database / Key-Value Store
 
 - **RAM Storage**: Redis keeps its entire dataset in random access memory (RAM), which allows for sub-millisecond response times and millions of operations per second.
 
@@ -34,6 +34,7 @@ Redis (REmote DIctionary Server) is an open source, in-memory, NoSQL key/value s
 
 
 ### Container Content:
+
 - Linux Alpine 3.24
 - Redis 8+
     - Dockerfile

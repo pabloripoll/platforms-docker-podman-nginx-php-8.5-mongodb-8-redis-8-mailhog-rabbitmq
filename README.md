@@ -21,7 +21,7 @@ By decoupling the runtime services, this boilerplate ensures your primary applic
 
 - API: [NGINX + PHP 8.5](./platforms/nginx-php-8.5/README.md)
 - Document DB: [MONGODB 8+](./platforms/mongodb-8/README.md)
-- Memory DB: [REDIS 8+](./platforms/redis-8/README.md)
+- Key-Value Store: [REDIS 8+](./platforms/redis-8/README.md)
 - Mail Sandbox: [MAILHOG 1+](./platforms/mailhog-1/README.md)
 - Message Broker: [RABBITMQ 4+](./platforms/rabbitmq-4/README.md)
 <br><br>
