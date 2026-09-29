@@ -14,12 +14,12 @@ services:
     container_name: ${COMPOSE_PROJECT_LEAD}-${COMPOSE_PROJECT_NAME}
     volumes:
       - type: bind
-        source: ${COMPOSE_PROJECT_PATH}
+        source: ${COMPOSE_PROJECT_BIND}
         target: /var/www
     deploy:
       resources:
         limits:
           cpus: ${COMPOSE_PROJECT_CPUS}
-          memory: ${COMPOSE_PROJECT_MEM}
+          memory: ${COMPOSE_PROJECT_MEMO}
     tty: true
     restart: unless-stopped
