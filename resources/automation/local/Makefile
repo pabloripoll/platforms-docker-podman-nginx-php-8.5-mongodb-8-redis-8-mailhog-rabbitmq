@@ -349,7 +349,7 @@ mailer-start: ## starts the mailer container running
 
 mailer-stop: ## stops the mailer container but its assets will not be destroyed
 	cd platforms/$(MAILER_PLTF) && $(MAKE) stop
-stop
+
 mailer-restart: ## restarts the running mailer container
 	cd platforms/$(MAILER_PLTF) && $(MAKE) restart
 
