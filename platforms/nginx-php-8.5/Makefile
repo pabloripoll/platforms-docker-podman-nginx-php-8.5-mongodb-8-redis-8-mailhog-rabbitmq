@@ -88,7 +88,7 @@ else
 	@echo "COMPOSE_PROJECT_NAME=$(DOCKER_CAAS)" >> ./docker/.env
 	@echo "COMPOSE_PROJECT_HOST=$(DOCKER_HOST)" >> ./docker/.env
 	@echo "COMPOSE_PROJECT_PORT=$(DOCKER_PORT)" >> ./docker/.env
-	@echo "COMPOSE_PROJECT_PATH=\"$(DOCKER_BIND)\"" >> ./docker/.env
+	@echo "COMPOSE_PROJECT_BIND=\"$(DOCKER_BIND)\"" >> ./docker/.env
 	@echo "COMPOSE_PROJECT_CPUS=$(DOCKER_CPUS)" >> ./docker/.env
 	@echo "COMPOSE_PROJECT_MEMO=$(DOCKER_MEMO)" >> ./docker/.env
 	@echo "COMPOSE_PROJECT_SWAP=$(DOCKER_SWAP)" >> ./docker/.env
