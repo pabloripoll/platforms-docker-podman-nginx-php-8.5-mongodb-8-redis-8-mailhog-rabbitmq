@@ -94,12 +94,12 @@ else
 	@echo "COMPOSE_PROJECT_MEMO=$(DOCKER_MEMO)" >> ./docker/.env
 	@echo "COMPOSE_PROJECT_SWAP=$(DOCKER_SWAP)" >> ./docker/.env
 	@echo "COMPOSE_PROJECT_APP_PORT=$(DOCKER_APP_PORT)" >> ./docker/.env;
-	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SERVICE "${C_YEL}$(DOCKER_PLTF)${C_END}" - "${C_YEL}"docker-compose.yml"${C_END}" .env file "${C_GRN}"has been set."${C_END};
-	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SERVICE "${C_YEL}$(DOCKER_PLTF)${C_END}" - Container: "${C_GRN}$(DOCKER_CONTAINER)${C_END}
-	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SERVICE "${C_YEL}$(DOCKER_PLTF)${C_END}" - Max. CPUs: "${C_GRN}$(DOCKER_CPUS)${C_END}
-	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SERVICE "${C_YEL}$(DOCKER_PLTF)${C_END}" - Max. memory: "${C_GRN}$(DOCKER_MEMO)${C_END}" - swap: "${C_GRN}$(DOCKER_SWAP)${C_END}
-	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SERVICE "${C_YEL}$(DOCKER_PLTF)${C_END}" - SMTP is served at: http://"${C_GRN}$(word 1,$(shell hostname -I)):$(DOCKER_PORT)${C_END}
-	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SERVICE "${C_YEL}$(DOCKER_PLTF)${C_END}" - APP/API is served at: http://127.0.0.1:"${C_GRN}$(DOCKER_APP_PORT)${C_END}
+	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SANDBOX "${C_YEL}$(DOCKER_PLTF)${C_END}" - "${C_YEL}"docker-compose.yml"${C_END}" .env file "${C_GRN}"has been set."${C_END};
+	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SANDBOX "${C_YEL}$(DOCKER_PLTF)${C_END}" - Container: "${C_GRN}$(DOCKER_CONTAINER)${C_END}
+	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SANDBOX "${C_YEL}$(DOCKER_PLTF)${C_END}" - Max. CPUs: "${C_GRN}$(DOCKER_CPUS)${C_END}
+	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SANDBOX "${C_YEL}$(DOCKER_PLTF)${C_END}" - Max. memory: "${C_GRN}$(DOCKER_MEMO)${C_END}" - swap: "${C_GRN}$(DOCKER_SWAP)${C_END}
+	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SANDBOX "${C_YEL}$(DOCKER_PLTF)${C_END}" - SMTP is served at: http://"${C_GRN}$(word 1,$(shell hostname -I)):$(DOCKER_PORT)${C_END}
+	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" MAIL SANDBOX "${C_YEL}$(DOCKER_PLTF)${C_END}" - APP/API is served at: http://127.0.0.1:"${C_GRN}$(DOCKER_APP_PORT)${C_END}
 endif
 
 # -------------------------------------------------------------------------------------------------
