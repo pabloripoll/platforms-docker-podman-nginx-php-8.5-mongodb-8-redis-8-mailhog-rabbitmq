@@ -8,7 +8,7 @@
 [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](./)
 [![MIT license](https://shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 
-# NGINX, PHP 8.5, MONGODB 8+ & REDIS 8 +
+# NGINX, PHP 8.5, MONGODB 8+ & REDIS 8+
 <br>
 
 This repository serves as a multi-engine containerized infrastructure boilerplate designed to streamline local development and remote services for back-end or front-end applications. It provides a set of pre-configured, loosely coupled platform services optimized to work interchangeably with either Docker or Podman.
