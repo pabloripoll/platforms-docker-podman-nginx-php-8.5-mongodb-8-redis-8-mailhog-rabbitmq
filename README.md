@@ -327,6 +327,13 @@ Repository directories structure overview
 │   │   │   └── ...etc
 │   │   └── Makefile
 │   │
+│   ├── redis-8
+│   │   ├── docker
+│   │   │   ├── .env
+│   │   │   ├── docker-compose.yml
+│   │   │   └── ...etc
+│   │   └── Makefile
+│   │
 │   ├── mailhog-1.0
 │   │   ├── docker
 │   │   │   ├── .env
