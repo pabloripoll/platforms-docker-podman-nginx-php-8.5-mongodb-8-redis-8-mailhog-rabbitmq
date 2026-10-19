@@ -82,18 +82,18 @@ env-set: ## sets docker .env file
 ifeq ($(DETECTED_OS), Windows)
 	echo "Recipe do not support for Windows NT at this moment - You have to manually create .env file from ./docker/.env.example";
 else
-	@echo "COMPOSE_PROJECT_LEAD=$(DOCKER_LEAD)" > ./docker/.env
-	@echo "COMPOSE_PROJECT_CNET=$(DOCKER_CNET)" >> ./docker/.env
-	@echo "COMPOSE_PROJECT_IMGK=$(DOCKER_IMGK)" >> ./docker/.env
-	@echo "COMPOSE_PROJECT_NAME=$(DOCKER_CAAS)" >> ./docker/.env
-	@echo "COMPOSE_PROJECT_HOST=$(DOCKER_HOST)" >> ./docker/.env
-	@echo "COMPOSE_PROJECT_PORT=$(DOCKER_PORT)" >> ./docker/.env
-	@echo "COMPOSE_PROJECT_BIND=\"$(DOCKER_BIND)\"" >> ./docker/.env
-	@echo "COMPOSE_PROJECT_CPUS=$(DOCKER_CPUS)" >> ./docker/.env
-	@echo "COMPOSE_PROJECT_MEMO=$(DOCKER_MEMO)" >> ./docker/.env
-	@echo "COMPOSE_PROJECT_SWAP=$(DOCKER_SWAP)" >> ./docker/.env
-	@echo "COMPOSE_PROJECT_USER=$(DOCKER_USER)" >> ./docker/.env
-	@echo "COMPOSE_PROJECT_GROUP=$(DOCKER_GROUP)" >> ./docker/.env
+	@echo "COMPOSE_LEAD=$(DOCKER_LEAD)" > ./docker/.env
+	@echo "COMPOSE_CNET=$(DOCKER_CNET)" >> ./docker/.env
+	@echo "COMPOSE_IMGK=$(DOCKER_IMGK)" >> ./docker/.env
+	@echo "COMPOSE_NAME=$(DOCKER_CAAS)" >> ./docker/.env
+	@echo "COMPOSE_HOST=$(DOCKER_HOST)" >> ./docker/.env
+	@echo "COMPOSE_PORT=$(DOCKER_PORT)" >> ./docker/.env
+	@echo "COMPOSE_BIND=\"$(DOCKER_BIND)\"" >> ./docker/.env
+	@echo "COMPOSE_CPUS=$(DOCKER_CPUS)" >> ./docker/.env
+	@echo "COMPOSE_MEMO=$(DOCKER_MEMO)" >> ./docker/.env
+	@echo "COMPOSE_SWAP=$(DOCKER_SWAP)" >> ./docker/.env
+	@echo "COMPOSE_USER=$(DOCKER_USER)" >> ./docker/.env
+	@echo "COMPOSE_GROUP=$(DOCKER_GROUP)" >> ./docker/.env
 	chmod +x ./docker/config/ownerships.sh
 	./docker/config/ownerships.sh $(DOCKER_USER) $(DOCKER_GROUP)
 	echo ${C_BLU}"$(PROJECT_NAME)"${C_END}" API REST "${C_YEL}$(DOCKER_PLTF)${C_END}" - "${C_YEL}"docker-compose.yml"${C_END}" .env file "${C_GRN}"has been set."${C_END};
@@ -193,13 +193,13 @@ nginx-default-update: ## updates nginx default server block without the need of 
 .PHONY: php-conf php-fpm-conf
 
 php-conf: ## shows php configuration set on the running container
-	$(DOCKER) exec -i $(DOCKER_CONTAINER) sh -c 'cat /etc/php83/conf.d/custom.ini'
+	$(DOCKER) exec -i $(DOCKER_CONTAINER) sh -c 'cat /etc/php85/conf.d/custom.ini'
 
 php-conf-update: ## updates php configuration without the need of stoping or rebuilding the container
-	$(DOCKER) cp ./docker/config/php/php.ini $(DOCKER_CONTAINER):/etc/php83/conf.d/custom.ini
+	$(DOCKER) cp ./docker/config/php/php.ini $(DOCKER_CONTAINER):/etc/php85/conf.d/custom.ini
 
 php-fpm-conf: ## shows PHP-FPM configuration set on the running container
-	$(DOCKER) exec -i $(DOCKER_CONTAINER) sh -c 'cat /etc/php83/php-fpm.d/www.conf'
+	$(DOCKER) exec -i $(DOCKER_CONTAINER) sh -c 'cat /etc/php85/php-fpm.d/www.conf'
 
 php-fpm-update: ## updates PHP-FPM configuration without the need of stoping or rebuilding the container
-	$(DOCKER) cp ./docker/config/php/fpm-pool.conf $(DOCKER_CONTAINER):/etc/php83/php-fpm.d/www.conf
+	$(DOCKER) cp ./docker/config/php/fpm-pool.conf $(DOCKER_CONTAINER):/etc/php85/php-fpm.d/www.conf
